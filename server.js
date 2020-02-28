@@ -30,7 +30,38 @@ app.get('/query', (req, res) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(`select name, tz, grid, geo from test where name='${name}'`, (err, response) => {
+        client.query(`select name, tz, geo, grid from test where name='${name}'`, (err, response) => {
+            release()
+            if (err) {
+                return console.error('Error executing query', err.stack)
+            }
+            res.send({
+                data: response.rows
+            })
+        })
+        //     client.query(`select tz, grid, name, geo from test where tz='${tz}'`, (err, response) => {
+        //         release()
+        //         if (err) {
+        //             return console.error('Error executing query', err.stack)
+        //         }
+        //         res.send({
+        //             data: response.rows
+        //         })
+        //     })
+        // })
+    })
+})
+
+//temps dropdown
+app.get('/query_time', (req, res) => {
+    var tz = req.query.tz
+
+    //database connection
+    pool.connect((err, client, release) => {
+        if (err) {
+            return console.error('Error acquiring client', err.stack)
+        }
+        client.query(`select tz, grid, name, geo from test where tz='${tz}'`, (err, response) => {
             release()
             if (err) {
                 return console.error('Error executing query', err.stack)

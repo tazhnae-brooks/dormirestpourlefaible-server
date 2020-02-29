@@ -67,7 +67,7 @@ app.get('/query_time', (req, res) => {
                 return console.error('Error executing query', err.stack)
             }
             res.send({
-                data: response.rows
+                time: response.rows
             })
         })
     })

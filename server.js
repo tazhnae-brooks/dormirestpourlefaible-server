@@ -24,13 +24,15 @@ app.get('/express_backend', (req, res) => {
 
 app.get('/query', (req, res) => {
     var name = req.query.name
+    var date = req.query.date
+    console.log(date);
 
     //database connection
     pool.connect((err, client, release) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(`select name, tz, geo, grid from test where name='${name}'`, (err, response) => {
+        client.query(`select name, tz, geo, grid from test where name='${name}' and date='${date}'`, (err, response) => {
             release()
             if (err) {
                 return console.error('Error executing query', err.stack)
@@ -39,16 +41,7 @@ app.get('/query', (req, res) => {
                 data: response.rows
             })
         })
-        //     client.query(`select tz, grid, name, geo from test where tz='${tz}'`, (err, response) => {
-        //         release()
-        //         if (err) {
-        //             return console.error('Error executing query', err.stack)
-        //         }
-        //         res.send({
-        //             data: response.rows
-        //         })
-        //     })
-        // })
+
     })
 })
 

@@ -65,3 +65,24 @@ app.get('/query_time', (req, res) => {
         })
     })
 })
+
+// app.get('/query_save', (req, res) => {
+//     var name = req.query.name
+//     // var grid = req.query.grid
+
+//     //database connection
+//     pool.connect((err, client, release) => {
+//         if (err) {
+//             return console.error('Error acquiring client', err.stack)
+//         }
+//         client.query(`update name, grid, tz, geo from test where name='${name}'`, (err, response) => {
+//             release()
+//             if (err) {
+//                 return console.error('Error executing query', err.stack)
+//             }
+//             res.send({
+//                 name: response.rows
+//             })
+//         })
+//     })
+// })

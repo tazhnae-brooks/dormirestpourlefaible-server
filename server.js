@@ -32,7 +32,7 @@ app.get('/query', (req, res) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(`select name, tz, geo, grid from test where name='${name}' and date='${date}'`, (err, response) => {
+        client.query(`select name, tz, geo, grid, date from test where name='${name}' and date='${date}'`, (err, response) => {
             release()
             if (err) {
                 return console.error('Error executing query', err.stack)
@@ -54,7 +54,7 @@ app.get('/query_time', (req, res) => {
         if (err) {
             return console.error('Error acquiring client', err.stack)
         }
-        client.query(`select tz, grid, name, geo from test where tz='${tz}'`, (err, response) => {
+        client.query(`select tz, grid, name, geo, date from test where tz='${tz}'`, (err, response) => {
             release()
             if (err) {
                 return console.error('Error executing query', err.stack)
@@ -66,23 +66,26 @@ app.get('/query_time', (req, res) => {
     })
 })
 
-// app.get('/query_save', (req, res) => {
-//     var name = req.query.name
-//     // var grid = req.query.grid
+app.get('/query_save', (req, res) => {
+    var name = req.query.name
+    var grid = req.query.grid
+    var tz = req.query.tz
+    var date = req.query.date
 
-//     //database connection
-//     pool.connect((err, client, release) => {
-//         if (err) {
-//             return console.error('Error acquiring client', err.stack)
-//         }
-//         client.query(`update name, grid, tz, geo from test where name='${name}'`, (err, response) => {
-//             release()
-//             if (err) {
-//                 return console.error('Error executing query', err.stack)
-//             }
-//             res.send({
-//                 name: response.rows
-//             })
-//         })
-//     })
-// })
+
+    //database connection
+    pool.connect((err, client, release) => {
+        if (err) {
+            return console.error('Error acquiring client', err.stack)
+        }
+        client.query(`insert into test (name, grid, tz, geo, date) Values ('${name}', '${grid}', '${tz}', '${date}')`, (err, response) => {
+            release()
+            if (err) {
+                return console.error('Error executing query', err.stack)
+            }
+            res.send({
+                name: response.rows
+            })
+        })
+    })
+})

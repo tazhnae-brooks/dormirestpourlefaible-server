@@ -68,7 +68,7 @@ app.get('/query_time', (req, res) => {
 
 app.get('/query_save', (req, res) => {
     var name = req.query.name
-    var grid = req.query.grid
+    // var grid = req.query.grid
     var tz = req.query.tz
     var date = req.query.date
 
